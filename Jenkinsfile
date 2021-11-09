@@ -2,21 +2,17 @@ pipeline {
 
     agent any
        tools {
-
-         maven 'maven'
-
-               }
-
-    stages {
-
-        stage ('Build') {
+          maven 'maven'
+       }
+ stages {
+       stage ('Build') {
             steps {
                
-                    sh 'mvn clean package'
+                    sh 'mvn clean install'
             }
         }
 
-        stage ('Deploy') {
+       stage ('Deploy') {
             steps {
 
                 withCredentials([[$class          : 'UsernamePasswordMultiBinding',
@@ -24,8 +20,8 @@ pipeline {
                                   usernameVariable: 'USERNAME',
                                   passwordVariable: 'PASSWORD']]) {
 
-                    sh '/Users/bonala.anjali/Downloads/cf login -a http://api.run.pivotal.io -u $USERNAME -p $PASSWORD'
-                    sh '/Users/bonala.anjali/Downloads/cf push'
+                    sh '/Users/bonala.anjali/Downloads/cf-cli-installer_6.53.0_winx64 (1)/cf login -a http://api.run.pivotal.io -u $USERNAME -p $PASSWORD'
+                    sh '/Users/bonala.anjali/Downloads/cf-cli-installer_6.53.0_winx64 (1)/cf push'
                 }
             }
 
